@@ -1,8 +1,8 @@
-const { merge } = require('webpack-merge');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
-const commonConfig = require('./webpack.common');
-const packageJson = require('../package.json');
+import { merge } from 'webpack-merge';
+import { rspack } from '@rspack/core';
+import { ModuleFederationPlugin, createModuleFederationConfig } from '@module-federation/enhanced/rspack';
+import commonConfig from './rspack.common.js';
+import packageJson from '../package.json' with { type: "json" };
 
 const devConfig = {
   mode: 'development',
@@ -19,18 +19,18 @@ const devConfig = {
     },
   },
   plugins: [
-    new ModuleFederationPlugin({
+    new ModuleFederationPlugin(createModuleFederationConfig({
       name: 'dashboard',
       filename: 'remoteEntry.js',
       exposes: {
         './DashboardApp': './src/bootstrap',
       },
       shared: packageJson.dependencies,
-    }),
-    new HtmlWebpackPlugin({
+    })),
+    new rspack.HtmlRspackPlugin({
       template: './public/index.html',
     }),
   ],
 };
 
-module.exports = merge(commonConfig, devConfig);
+export default merge(commonConfig, devConfig);
