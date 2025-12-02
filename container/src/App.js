@@ -2,12 +2,12 @@ import React, { lazy, Suspense, useState } from 'react';
 import { BrowserRouter, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import { StyledEngineProvider } from '@mui/material/styles';
 
-import Progress from './components/Progress';
-import Header from './components/Header';
+import Progress from './components/Progress.js';
+import Header from './components/Header.js';
 
-const MarketingLazy = lazy(() => import('./components/MarketingApp'));
-const AuthLazy = lazy(() => import('./components/AuthApp'));
-const DashboardLazy = lazy(() => import('./components/DashboardApp'));
+const MarketingLazy = lazy(() => import('./components/MarketingApp.js'));
+const AuthLazy = lazy(() => import('./components/AuthApp.js'));
+const DashboardLazy = lazy(() => import('./components/DashboardApp.js'));
 
 const App = () => {
   const [isSignedIn, setIsSignedIn] = useState(false);

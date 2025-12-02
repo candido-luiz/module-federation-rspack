@@ -1,7 +1,7 @@
-const { merge } = require('webpack-merge');
-const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
-const commonConfig = require('./webpack.common');
-const packageJson = require('../package.json');
+import { merge } from 'webpack-merge';
+import { ModuleFederationPlugin, createModuleFederationConfig } from '@module-federation/enhanced/rspack';
+import packageJson from '../package.json' with { type: "json" };
+import commonConfig from './rspack.common.js';
 
 const devConfig = {
   mode: 'development',
@@ -15,7 +15,7 @@ const devConfig = {
     },
   },
   plugins: [
-    new ModuleFederationPlugin({
+    new ModuleFederationPlugin(createModuleFederationConfig({
       name: 'container',
       remotes: {
         marketing: 'marketing@http://localhost:8081/remoteEntry.js',
@@ -37,8 +37,8 @@ const devConfig = {
           requiredVersion: packageJson.dependencies['react-router-dom'],
         },
       },
-    }),
+    })),
   ],
 };
 
-module.exports = merge(commonConfig, devConfig);
+export default merge(commonConfig, devConfig);
